@@ -39,7 +39,7 @@ Le projet tourne autour de la gestion et de la visualisation des collections d'o
 ### **Entités Créées**  
 
 1. **jeu**  [ objet ]
-   - **Attributs :** `id`, `nom`, `description`, `nombre_joueurs_maximum`, `nombre_joueurs_minimum`, `temps_jeu_moyen`, `type`, `image`.  
+   - **Attributs :** `id`, `nom`, `description`, `nombre_joueurs_maximum`, `nombre_joueurs_minimum`, `temps_jeu_moyen`, `type`, `image`.
    - **Relations :**  
      - Un objet peut appartenir à plusieurs Coffres.
 
