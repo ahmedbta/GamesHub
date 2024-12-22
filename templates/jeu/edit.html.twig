@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le Jeu{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="form-container mx-auto p-4 shadow rounded" style="max-width: 700px;">
+        <h1 class="text-center mb-4 text-primary">Modifier le Jeu</h1>
+        <p class="text-muted text-center">Mettez à jour les informations du jeu ci-dessous.</p>
+
+        {{ include('jeu/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+        <a href="{{ path('app_jeu_index') }}" class="btn btn-secondary w-100 mt-3">Retour à la liste des jeux</a>
+    </div>
+</div>
+
+{% endblock %}

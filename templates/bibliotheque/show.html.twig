@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/bibliotheque.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="container my-5 bibliotheque-page">
+    <div class="text-center mb-5">
+        <h1 class="display-4">{{ bibliotheque.description }}</h1>
+        <p class="text-muted fs-5">Découvrez les jeux de cette bibliothèque.</p>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-center">
+        {% for jeu in bibliotheque.jeux %}
+            <div class="card hover-card-custom" style="width: 18rem;">
+                {% if jeu.imageName %}
+                    <img src="{{ vich_uploader_asset(jeu, 'imageFile') }}" 
+                         class="card-img-top img-card-custom" 
+                         alt="{{ jeu.nom }}">
+                {% else %}
+                    <img src="{{ asset('images/default-game.png') }}" 
+                         class="card-img-top img-card-custom" 
+                         alt="Image par défaut">
+                {% endif %}
+                <div class="card-body text-center">
+                    <h5 class="card-title text-primary">{{ jeu.nom }}</h5>
+                    <p class="card-text text-muted">Un jeu de type {{ jeu.type }}</p>
+                    <a href="{{ path('app_bibliotheque_jeu_show', { 'bibliotheque_id': bibliotheque.id, 'jeu_id': jeu.id }) }}" 
+                       class="btn btn-outline-primary">Voir les détails</a>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-warning text-center">
+                Aucun jeu disponible dans cette bibliothèque.
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

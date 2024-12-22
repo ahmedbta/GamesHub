@@ -1,0 +1,33 @@
+bootstrap_menu:
+  menus:
+    main:
+      items:
+        home:
+          label: 'Home'
+          route: 'app_home'
+        bibliotheques:
+          label: 'Bibliothèques'
+          route: 'app_bibliotheque_index'
+        coffres:
+          label: 'Coffres'
+          route: 'coffre_index'
+        jeux:
+          label: 'Jeux'
+          route: 'app_jeu_index'
+        membres:
+          label: 'Membres'
+          route: 'app_member_index'
+          roles: ['ROLE_ADMIN'] 
+
+    anonymousaccount:
+      items:
+        login:
+          label: 'Connexion'
+          route: 'app_login'
+
+    account:
+      items:
+        logout:
+          label: 'Déconnexion'
+          route: 'app_logout'
+          roles: ['ROLE_USER']

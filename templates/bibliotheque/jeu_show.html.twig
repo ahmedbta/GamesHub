@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Jeu - {{ jeu.nom }}{% endblock %}
+
+{% block body %}
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card shadow-lg p-3 mb-5 bg-body rounded animate__animated animate__fadeIn" style="max-width: 900px;">
+        <div class="row g-0">
+            <!-- Image Column Centered -->
+            <div class="col-md-4 d-flex align-items-center justify-content-center">
+                {% if jeu.imageName %}
+                    <img src="{{ vich_uploader_asset(jeu, 'imageFile') }}" 
+                         alt="{{ jeu.nom }}" 
+                         class="img-fluid rounded hover-zoom" 
+                         style="width: auto; height:auto; object-fit: cover;">
+                {% else %}
+                    <img src="{{ asset('images/default-game.png') }}" 
+                         alt="Image par défaut" 
+                         class="img-fluid rounded hover-zoom" 
+                         style="width: 300px; height: 300px; object-fit: cover;">
+                {% endif %}
+            </div>
+
+            <!-- Text Column -->
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h1 class="card-title text-primary display-4">{{ jeu.nom }}</h1>
+                    <p class="card-text text-muted fst-italic">Année de création: {{ jeu.annee }}</p>
+                    <p class="card-text">
+                        <strong>Nombre de joueurs :</strong>
+                        {% if jeu.nbJoueursMini == jeu.nbJoueursMax %}
+                            Ce jeu nécessite exactement {{ jeu.nbJoueursMini }} joueurs.
+                        {% else %}
+                            Ce jeu peut être joué entre {{ jeu.nbJoueursMini }} et {{ jeu.nbJoueursMax }} joueurs.
+                        {% endif %}
+                    </p>
+                    <p class="card-text"><strong>Temps de jeu :</strong> {{ jeu.tempsJeu }} minutes</p>
+                    <p class="card-text"><strong>Type :</strong> {{ jeu.type }}</p>
+                    <p class="card-text"><strong>Description :</strong></p>
+                    <p>{{ jeu.description|default('Aucune description disponible.') }}</p>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{{ path('app_bibliotheque_show', { id: bibliotheque.id }) }}" class="btn btn-secondary btn-sm">
+                            <i class="bi bi-arrow-left-circle"></i> Retour à la Bibliothèque
+                        </a>
+                        {% if app.user and (app.user == jeu.coffre.membre or is_granted('ROLE_ADMIN')) %}
+                            <a href="{{ path('app_jeu_edit', { id: jeu.id }) }}" class="btn btn-warning btn-sm">
+                                <i class="bi bi-pencil-square"></i> Modifier
+                            </a>
+                            <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                <i class="bi bi-trash"></i> Supprimer
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirmer la suppression</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Êtes-vous sûr de vouloir supprimer ce jeu ? Cette action est irréversible.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <form method="post" action="{{ path('app_jeu_delete', { id: jeu.id }) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ jeu.id) }}">
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

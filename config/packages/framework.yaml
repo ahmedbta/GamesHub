@@ -16,7 +16,8 @@ framework:
     #fragments: true
     php_errors:
         log: true
-
+    assets:
+        base_path: '/startbootstrap-shop-homepage-gh-pages'
 when@test:
     framework:
         test: true

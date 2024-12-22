@@ -1,0 +1,99 @@
+<div class="form-group">
+    {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate', 'enctype': 'multipart/form-data'}}) }}
+
+    <!-- Nom Field -->
+    <div class="mb-3">
+        {{ form_label(form.nom, 'Nom :', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+        <div class="invalid-feedback">Veuillez fournir un nom valide.</div>
+    </div>
+
+    <!-- Année Field -->
+    <div class="mb-3">
+        {{ form_label(form.annee, 'Année de création :', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.annee, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <!-- Nombre de joueurs -->
+    <div class="row mb-3">
+        <div class="col">
+            {{ form_label(form.nb_joueurs_mini, 'Nombre minimum de joueurs :', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.nb_joueurs_mini, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="col">
+            {{ form_label(form.nb_joueurs_max, 'Nombre maximum de joueurs :', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.nb_joueurs_max, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    <!-- Temps de jeu -->
+    <div class="mb-3">
+        {{ form_label(form.temps_jeu, 'Temps de jeu (minutes) :', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.temps_jeu, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <!-- Type Field -->
+    <div class="mb-3">
+        {{ form_label(form.type, 'Type de jeu :', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <!-- Description Field -->
+    <div class="mb-3">
+        {{ form_label(form.description, 'Description :', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+
+      <!-- Image Upload -->
+    <div class="mb-3">
+        {{ form_label(form.imageFile, 'Changer l’image :', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.imageFile, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+
+    <!-- Coffre Selection -->
+    <div class="mb-3">
+        {{ form_label(form.coffre, 'Coffre :', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.coffre, {'attr': {'class': 'form-select'}}) }}
+    </div>
+
+
+
+    <!-- Submit Button -->
+    <div class="text-center mt-4">
+        <button class="btn btn-success btn-lg w-100">{{ button_label|default('Enregistrer') }}</button>
+    </div>
+
+    {{ form_end(form) }}
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.game-card').forEach(function (card) {
+            card.addEventListener('click', function () {
+                const checkbox = card.querySelector('input[type="checkbox"]');
+                checkbox.checked = !checkbox.checked;
+                card.querySelector('.card').classList.toggle('selected', checkbox.checked);
+            });
+        });
+    });
+</script>
+
+<style>
+    .game-card .card {
+        width: 80px;
+        height: 80px;
+        transition: transform 0.3s, background-color 0.3s;
+    }
+
+    .game-card .card.selected {
+        background-color: #d1e7dd;
+        transform: scale(1.1);
+        border-color: #198754;
+    }
+
+    .hover-scale:hover {
+        transform: scale(1.05);
+    }
+</style>

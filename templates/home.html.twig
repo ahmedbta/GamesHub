@@ -1,0 +1,131 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <!-- Hero Section -->
+    <div class="text-center mb-5">
+        <h1 class="display-4 text-primary">Bienvenue sur Jeux Hub</h1>
+        <p class="lead">Une plateforme complète pour gérer, explorer et partager vos collections de jeux.</p>
+        <a href="{{ path('app_bibliotheque_index') }}" class="btn btn-success btn-lg">Découvrir les Bibliothèques</a>
+    </div>
+
+    <!-- About Section -->
+    <div class="about-section py-5 bg-light rounded shadow mb-5">
+        <h2 class="text-center text-secondary mb-4">À propos du projet</h2>
+        <p>
+            Jeux Hub est une application web conçue pour centraliser et simplifier la gestion des collections de jeux. 
+            Que vous soyez passionné par les jeux de cartes, de stratégie ou même les jeux de hasard, cette plateforme vous permet de :
+        </p>
+        <ul>
+            <li><strong>Créer et organiser des bibliothèques</strong> pour regrouper vos jeux par catégories ou préférences.</li>
+            <li><strong>Gérer des coffres personnels</strong> pour stocker vos jeux en toute simplicité.</li>
+            <li><strong>Explorer des jeux variés</strong> avec des informations détaillées, y compris le nombre de joueurs, la durée de jeu et le type.</li>
+            <li><strong>Accéder à des fonctionnalités administratives</strong> pour une gestion avancée (réservé aux administrateurs).</li>
+        </ul>
+        <p>
+            L'objectif de Jeux Hub est de fournir une interface intuitive et esthétique, permettant aux utilisateurs de se concentrer sur ce qu'ils aiment le plus : jouer et partager.
+        </p>
+    </div>
+
+    <!-- Routes Section -->
+    <div class="routes-section">
+        <h2 class="text-center text-secondary mb-4">Routes Disponibles</h2>
+        <table class="table table-striped shadow">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nom de la Route</th>
+                    <th>Méthode</th>
+                    <th>Chemin</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>app_bibliotheque_index</td>
+                    <td>GET</td>
+                    <td>/bibliotheque</td>
+                    <td>Affiche la liste des bibliothèques</td>
+                </tr>
+                <tr>
+                    <td>app_bibliotheque_show</td>
+                    <td>GET</td>
+                    <td>/bibliotheque/{id}</td>
+                    <td>Affiche les détails d'une bibliothèque</td>
+                </tr>
+                <tr>
+                    <td>coffre_index</td>
+                    <td>GET</td>
+                    <td>/coffres</td>
+                    <td>Liste des coffres</td>
+                </tr>
+                <tr>
+                    <td>app_jeu_index</td>
+                    <td>GET</td>
+                    <td>/jeu</td>
+                    <td>Liste des jeux</td>
+                </tr>
+                <tr>
+                    <td>app_member_index</td>
+                    <td>GET</td>
+                    <td>/member/</td>
+                    <td>Liste des membres (admin seulement)</td>
+                </tr>
+                <tr>
+                    <td>app_login</td>
+                    <td>GET|POST</td>
+                    <td>/login</td>
+                    <td>Page de connexion</td>
+                </tr>
+                <tr>
+                    <td>app_logout</td>
+                    <td>GET</td>
+                    <td>/logout</td>
+                    <td>Déconnexion</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="mt-3">Pour voir toutes les routes, exécutez : <code>php bin/console debug:router</code></p>
+    </div>
+
+    <!-- Accounts Section -->
+    <div class="accounts-section mt-5">
+        <h2 class="text-center text-secondary mb-4">Comptes Disponibles</h2>
+        <p class="text-center text-muted">Voici quelques comptes pour tester l'application :</p>
+        <div class="d-flex justify-content-center">
+            <table class="table table-bordered shadow" style="max-width: 600px;">
+                <thead class="table-light">
+                    <tr>
+                        <th>Type de Compte</th>
+                        <th>Email</th>
+                        <th>Mot de Passe</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Admin</td>
+                        <td>admin@localhost</td>
+                        <td>adminpass</td>
+                    </tr>
+                    <tr>
+                        <td>Utilisateur 1</td>
+                        <td>user1@localhost</td>
+                        <td>userpass</td>
+                    </tr>
+                    <tr>
+                        <td>Utilisateur 2</td>
+                        <td>user2@localhost</td>
+                        <td>userpass</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-5 text-center">
+        <p class="text-muted">&copy; 2024 JeuxHub. Tous droits réservés.</p>
+    </footer>
+</div>
+{% endblock %}

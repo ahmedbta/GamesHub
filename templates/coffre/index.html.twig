@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Coffres{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <h1 class="text-center text-primary mb-4">Liste des Coffres</h1>
+    
+    <div class="row justify-content-center">
+        {% for coffre in coffres %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                {% if is_granted('ROLE_ADMIN') or coffre.membre.id == app.user.id %}
+                    <!-- Accessible Coffre Card -->
+                    <div class="card shadow-sm hover-scale text-center border-success">
+                        <div class="card-body">
+                            <h5 class="card-title text-success">Coffre de {{ coffre.membre.nom }}</h5>
+                            <a href="{{ path('coffre_show', {'id': coffre.id}) }}" class="btn btn-primary w-100 mt-3">Voir le coffre</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <!-- Inaccessible Coffre Card -->
+                    <div class="card shadow-sm hover-scale text-center border-danger">
+                        <div class="card-body">
+                            <h5 class="card-title text-danger">Coffre de {{ coffre.membre.nom }}</h5>
+                            <button class="btn btn-secondary w-100 mt-3" disabled>Inaccessible</button>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="col-12 text-center">
+                <p class="text-muted">Aucun coffre n'a été trouvé.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Add some animation to cards -->
+<style>
+    .hover-scale {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .hover-scale:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .card {
+        border-radius: 15px;
+    }
+
+    .border-success {
+        border-color: #28a745 !important;
+    }
+
+    .border-danger {
+        border-color: #dc3545 !important;
+    }
+</style>
+{% endblock %}

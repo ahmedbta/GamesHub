@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Liste des Bibliothèques</h1>
+    <div class="row">
+        {% for bibliotheque in bibliotheques %}
+            <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                  <div class="card shadow-sm">
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{ bibliotheque.description }}</h5>
+                        <p class="card-text"><strong>Créateur :</strong> {{ bibliotheque.createur.nom }}</p>
+                        
+                        <div class="d-flex justify-content-between mt-3">
+                            <a href="{{ path('app_bibliotheque_show', {'id': bibliotheque.id}) }}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-eye"></i> Voir
+                            </a>
+                            
+                            {% if app.user and (app.user == bibliotheque.createur or is_granted('ROLE_ADMIN')) %}
+                                <a href="{{ path('app_bibliotheque_edit', {'id': bibliotheque.id}) }}" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i> Modifier
+                                </a>
+                                <form method="post" action="{{ path('app_bibliotheque_delete', {'id': bibliotheque.id}) }}" style="display:inline;" onsubmit="return confirm('Voulez-vous vraiment supprimer cette bibliothèque ?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ bibliotheque.id) }}">
+                                    <button class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash-alt"></i> Supprimer
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="col-12">
+                <div class="alert alert-warning text-center" role="alert">
+                    Aucune bibliothèque trouvée.
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="text-center mt-4">
+        {% if app.user %}
+            <a href="{{ path('app_bibliotheque_new', {'memberId': app.user.id}) }}" class="btn btn-success">
+                <i class="fas fa-plus"></i> Ajouter une Bibliothèque
+            </a>
+        {% else %}
+            <p class="text-muted">Connectez-vous pour ajouter une bibliothèque.</p>
+        {% endif %}
+        <a href="{{ path('coffre_index') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Retour
+        </a>
+    </div>
+</div>
+{% endblock %}

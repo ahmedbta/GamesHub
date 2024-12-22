@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une nouvelle Bibliothèque{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="form-container mx-auto p-4 shadow rounded" style="max-width: 50%; background-color: #f9f9f9;">
+        <h1 class="text-center mb-4 text-primary">Créer une nouvelle Bibliothèque</h1>
+        <p class="text-muted text-center">Veuillez remplir les informations pour créer une nouvelle bibliothèque.</p>
+
+        {{ form_start(form) }}
+        
+        <!-- Nom Field -->
+        <div class="mb-3">
+            {{ form_label(form.description, 'Nom :', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+            <small class="text-muted">Donnez un nom unique à votre bibliothèque.</small>
+        </div>
+
+        <!-- Publiée Field -->
+        <div class="mb-3 form-check">
+            {{ form_widget(form.publiee, {'attr': {'class': 'form-check-input'}}) }}
+            {{ form_label(form.publiee, 'Bibliothèque Publiée', {'label_attr': {'class': 'form-check-label'}}) }}
+            <small class="text-muted">Cochez cette case si vous souhaitez rendre la bibliothèque accessible à tous les utilisateurs.</small>
+        </div>
+
+        <!-- Créateur Field -->
+        <div class="mb-3">
+            {{ form_label(form.createur, 'Créateur :', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.createur, {'attr': {'class': 'form-select'}}) }}
+            <small class="text-muted">Sélectionnez le créateur de cette bibliothèque.</small>
+        </div>
+
+        <!-- Jeux Selection with Styled Cards -->
+        <div class="mb-3">
+            <label for="jeux" class="form-label">Sélectionnez les jeux :</label>
+             <div id="jeux-container" class="d-flex flex-wrap gap-3">
+            {% for jeu in form.jeux %}
+                  <div class="game-card" data-id="{{ jeu.vars.value }}">
+                    <div class="card shadow-sm p-2 text-center d-flex align-items-center justify-content-center hover-scale" id="jeu-{{ jeu.vars.value }}" style="cursor: pointer; height: 50px;">
+                        <h6 class="card-title mb-0">{{ jeu.vars.label }}</h6>
+                           {{ form_widget(jeu, { 'attr': { 'class': 'd-none' } }) }}
+                            </div>
+                   </div>
+                 {% endfor %}
+            </div>
+
+            <small class="text-muted">Cliquez sur les cartes pour sélectionner ou désélectionner des jeux.</small>
+        </div>
+
+        <button class="btn btn-success w-100 mt-3">Créer la Bibliothèque</button>
+        
+        {{ form_end(form) }}
+
+        <a href="{{ path('app_bibliotheque_index') }}" class="btn btn-secondary mt-3 w-100">Retour à la liste des bibliothèques</a>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.game-card').forEach(function (card) {
+            card.addEventListener('click', function () {
+                const checkbox = card.querySelector('input[type="checkbox"]');
+                checkbox.checked = !checkbox.checked;
+                card.querySelector('.card').classList.toggle('selected', checkbox.checked);
+            });
+        });
+    });
+</script>
+
+<style>
+    .game-card .card {
+        width: 80px;
+        height: 80px;
+        transition: transform 0.3s, background-color 0.3s;
+    }
+
+    .game-card .card.selected {
+        background-color: #d1e7dd;
+        transform: scale(1.1);
+        border-color: #198754;
+    }
+
+    .hover-scale:hover {
+        transform: scale(1.05);
+    }
+</style>
+{% endblock %}

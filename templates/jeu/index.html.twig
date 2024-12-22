@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Jeux{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4 text-primary">Liste des Jeux</h1>
+
+    <!-- Filter by Type -->
+    <form method="get" action="{{ path('app_jeu_index') }}" class="mb-4">
+        <div class="row g-3 align-items-center">
+            <div class="col-auto">
+                <label for="filterType" class="form-label">Filtrer par type :</label>
+            </div>
+            <div class="col-auto">
+                <select id="filterType" name="type" class="form-select">
+                    <option value="">Tous les types</option>
+                    {% for type in gameTypes %}
+                        <option value="{{ type }}" {{ selectedType == type ? 'selected' : '' }}>{{ type|capitalize }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Filtrer</button>
+            </div>
+        </div>
+    </form>
+
+    {% if jeus|length > 0 %}
+        <ul class="list-group">
+            {% for jeu in jeus %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5>{{ jeu.nom }}</h5>
+                        <p class="mb-1">
+                            <strong>Nombre de joueurs :</strong> 
+                            {% if jeu.nbJoueursMini == jeu.nbJoueursMax %}
+                                Exactement {{ jeu.nbJoueursMini }} joueurs.
+                            {% else %}
+                                De {{ jeu.nbJoueursMini }} à {{ jeu.nbJoueursMax }} joueurs.
+                            {% endif %}
+                        </p>
+                        <p class="mb-1"><strong>Type :</strong> {{ jeu.type|capitalize }}</p>
+                        <p class="mb-1"><strong>Temps de jeu :</strong> {{ jeu.tempsJeu }} minutes</p>
+                    </div>
+                    <div>
+                        <a href="{{ path('app_jeu_show', { id: jeu.id }) }}" class="btn btn-sm btn-primary">Voir</a>
+                        <a href="{{ path('app_jeu_edit', { id: jeu.id }) }}" class="btn btn-sm btn-warning">Modifier</a>
+                        <button class="btn btn-sm btn-danger delete-btn" 
+                                data-action="{{ path('app_jeu_delete', { id: jeu.id }) }}" 
+                                data-token="{{ csrf_token('delete' ~ jeu.id) }}" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#deleteModal">
+                            Supprimer
+                        </button>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="alert alert-info mt-4">
+            Aucun jeu trouvé pour ce type.
+        </div>
+    {% endif %}
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirmer la suppression</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Êtes-vous sûr de vouloir supprimer ce jeu ? Cette action est irréversible.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <form id="deleteForm" method="post" style="display: inline;">
+                    <input type="hidden" name="_token" value="">
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const form = document.getElementById('deleteForm');
+                const token = this.dataset.token;
+                const action = this.dataset.action;
+
+                form.action = action;
+                form.querySelector('input[name="_token"]').value = token;
+            });
+        });
+    });
+</script>
+{% endblock %}

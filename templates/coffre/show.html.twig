@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Coffre : {{ coffre.nom }}{% endblock %}
+
+{% block body %}
+<div class="container my-5 d-flex justify-content-center">
+    <div class="card shadow-lg p-5 mb-5 bg-body rounded" style="width: 50%;">
+        <div class="row">
+            <!-- First Column: Coffre Details -->
+            <div class="col-12">
+                <h1 class="text-primary mb-4">{{ coffre.nom }}</h1>
+
+                <div class="details-section mb-4">
+                    <p><strong>ID :</strong> {{ coffre.id }}</p>
+                    <p><strong>Nom :</strong> {{ coffre.nom }}</p>
+                    <p><strong>Propriétaire :</strong> {{ coffre.membre.nom }}</p>
+                </div>
+
+                <h3 class="text-success mb-3">Jeux dans ce Coffre</h3>
+                <ul class="list-group mb-4">
+                    {% for jeu in coffre.jeux %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>{{ jeu.nom }}</span>
+                            <a href="{{ path('app_jeu_show', { id: jeu.id }) }}" class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-eye"></i> Voir
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="list-group-item text-muted">Aucun jeu dans ce coffre.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Buttons Section -->
+            <div class="col-12 d-flex flex-column align-items-center">
+
+            
+                <a href="{{ path('app_jeu_new', {'id': coffre.id}) }}" class="btn btn-success mb-3 w-75">
+                    <i class="bi bi-plus-circle"></i> Ajouter un jeu
+                </a>
+
+                <a href="{{ path('app_member_show', {'id': coffre.membre.id}) }}" class="btn btn-secondary mb-3 w-75">
+                    <i class="bi bi-arrow-left-circle"></i> Retour au profil
+                </a>
+
+                <a href="{{ path('coffre_index') }}" class="btn btn-dark w-75">
+                    <i class="bi bi-list"></i> Retour aux coffres
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom Styles -->
+<style>
+    .details-section p {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+
+    .list-group-item {
+        border: none;
+        padding: 15px;
+        font-size: 1.2rem;
+    }
+
+    .list-group-item:hover {
+        background-color: #f8f9fa;
+    }
+
+    .btn {
+        border-radius: 30px;
+        font-size: 1.2rem;
+        padding: 10px 20px;
+    }
+
+    .btn:hover {
+        transform: scale(1.05);
+    }
+
+    .card {
+        border-radius: 20px;
+    }
+
+    .row {
+        gap: 1rem;
+    }
+</style>
+{% endblock %}
